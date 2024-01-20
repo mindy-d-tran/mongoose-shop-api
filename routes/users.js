@@ -5,7 +5,8 @@ import User from "../models/users.js";
 const router = new Router();
 
 /**
- * GET @description get users
+ * GET 
+ * @description get users
  */
 router.get("/", async (req, res) => {
   try {
@@ -15,9 +16,9 @@ router.get("/", async (req, res) => {
     console.log(error.message);
   }
 });
-
 /**
- * POST @description create user
+ * POST 
+ * @description create user
  */
 router.post('/', async(req,res)=>{
     try {
@@ -27,5 +28,17 @@ router.post('/', async(req,res)=>{
         console.log(error.message);
     }
 })
-
+/**
+ * PUT /:id
+ */
+router.put('/:id', async(req,res)=>{
+    try {
+        const id = req.params.id;
+        const updateUser = await User.findByIdAndUpdate(id, req.body, {new: true});
+        res.json(updateUser);
+    } catch (error) {
+        console.log(error);
+        res.json({msg: "user not found"});
+    }
+})
 export default router;
