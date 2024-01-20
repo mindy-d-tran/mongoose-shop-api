@@ -21,6 +21,14 @@ const usersSchema = new mongoose.Schema({
         minLength: 8,
         maxLength: 20
     }
-}, {timestamps: true});
+}, {
+    timestamps: true,
+    toJSON:{
+        transform: function(doc,retDoc){
+            delete retDoc.password;
+            return retDoc;
+        }
+    }
+});
 
 export default mongoose.model('User', usersSchema);
