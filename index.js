@@ -18,8 +18,8 @@ app.use('/api/users', usersRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
 
-app.get('/', (req,res=>{
+app.get('/', (req,res)=>{
     res.send('Welcome to the api');
-}))
+})
 
-app.listen(PORT,()=>console.log(`server running on prot ${PORT}`));
+app.listen(PORT,()=>console.log(`server running on port ${PORT}`));
