@@ -18,34 +18,37 @@ router.get("/", async (req, res) => {
 /**
  * POST create user
  */
-router.post('/', async(req,res)=>{
-    try {
-        const user = await User.create(req.body);
-        res.status(201).json(user);
-    } catch (error) {
-        console.log(error.message);
-    }
-})
+router.post("/", async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json({user});
+  } catch (error) {
+    console.error(error);
+    res.json({ msg: "something went wrong" });
+  }
+});
 /**
  * PUT /:id update user
  */
-router.put('/:id', async(req,res)=>{
-    try {
-        const id = req.params.id;
-        const updateUser = await User.findByIdAndUpdate(id, req.body, {new: true});
-        res.json(updateUser);
-    } catch (error) {
-        console.log(error);
-        res.json({msg: "user not found"});
-    }
-})
+router.put("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateUser = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res.json(updateUser);
+  } catch (error) {
+    console.log(error);
+    res.json({ msg: "user not found" });
+  }
+});
 /**
  * DELETE /:id delete user
  */
-router.delete('/:id', async(req,res)=>{
+router.delete("/:id", async (req, res) => {
   try {
     const deleteUser = await User.findByIdAndDelete(req.params);
-    res.json({msg: "User deleted", deleteUser})
+    res.json({ msg: "User deleted", deleteUser });
   } catch (error) {
     console.log(error);
   }
