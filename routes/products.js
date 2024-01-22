@@ -12,8 +12,19 @@ router.get("/", async (req, res) => {
     const products = await Product.find({});
     res.send(products);
   } catch (error) {
-    console.log(error.message);
+    res.send({msg: "can't find user"});
   }
 });
 
+/**
+ * POST @description add products
+ */
+router.post("/", async (req, res) => {
+  try {
+    const product = await Product.create(req.body);
+    res.send(product);
+  } catch (error) {
+    res.json({msg: "something went wrong", errMsg: error.message});
+  }
+});
 export default router;
