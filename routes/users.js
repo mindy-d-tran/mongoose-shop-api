@@ -21,11 +21,16 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json({user});
+    res.status(201).json({ user });
   } catch (error) {
     console.error(error);
     res.json({ msg: "something went wrong" });
   }
+});
+router.get("/:id", async (req, res, next) => {
+  const user = await User.find({ _id: req.params.id});
+  if(user) res.json(user);
+  else next();
 });
 /**
  * PUT /:id update user
