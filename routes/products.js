@@ -27,4 +27,15 @@ router.post("/", async (req, res) => {
     res.json({msg: "something went wrong", errMsg: error.message});
   }
 });
+
+router.get('/:id', async(req,res,next)=>{
+  try {
+    const product = await Product.findById(req.params.id);
+    if (product) res.json(product);
+    else next();
+  } catch (error) {
+    res.json({msg: "something went wrong", errMsg: error.message});
+  }
+})
+
 export default router;
