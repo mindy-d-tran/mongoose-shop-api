@@ -28,6 +28,9 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * GET /:id
+ */
 router.get('/:id', async(req,res,next)=>{
   try {
     const product = await Product.findById(req.params.id);
@@ -38,4 +41,17 @@ router.get('/:id', async(req,res,next)=>{
   }
 })
 
+/**
+ * PUT update product
+ */
+router.put('/:id', async(req,res,next)=>{
+  try {
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {new:true} );
+    
+    if(product) res.json(product);
+  } catch (error) {
+    console.log(error);
+    res.json({msg: "can't find product", errMsg: error.message})
+  }
+})
 export default router;
