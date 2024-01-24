@@ -1,5 +1,5 @@
 import { Router } from "express";
-import WishList from "../models/wishLists";
+import WishList from "../models/wishLists.js";
 
 const router = new Router();
 /**
@@ -7,10 +7,10 @@ const router = new Router();
  */
 router.get("/", async (req, res) => {
   try {
-    const wishLists = await WishList.find({});
+    const wishLists = await WishList.find({}).populate({path: "orderList.product_id"});
     res.send(wishLists);
   } catch (error) {
-    res.json({ msg: error.message });
+    res.status(404).json({ msg: error.message });
   }
 });
 
@@ -20,47 +20,39 @@ router.get("/", async (req, res) => {
  */
 router.get("/:id", async (req, res) => {
   try {
-    const wishList = await WishList.find({ _id: req.params.id });
+    const wishList = await WishList.find({ _id: req.params.id }).populate({path: "orderList.product_id"});
     res.json(wishList);
   } catch (error) {
-    res.json({ msg: "can't find wish list", errMsg: error.message });
+    res.status(404).json({errMsg: error.message });
   }
 });
 /**
- * PUT /:id update wish list
+ * PUT /:id add one item to the wish list
  */
-router.put("/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const updateWishList = await WishList.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    res.json(updateWishList);
-  } catch (error) {
-    console.log(error);
-    res.json({ msg: "wish list not found" });
-  }
-});
-router.put("/:id/add", async (req, res) => {
+
+router.put("/:id/add/", async (req, res) => {
     try {
-      const wishList = await WishList.findById(req.params);
+      const wishList = await WishList.findById(req.params.id);
       wishList.orderList.push(req.body);
       wishList.save();
       res.json(wishList);
     } catch (error) {
       console.log(error);
-      res.json({ msg: "wish list not found" });
+      res.status(404).json({ msg: error.message});
     }
   });
+
 /**
  * DELETE /:id delete item
  */
 router.put("/:id/remove", async (req, res) => {
   try {
-    const wishList = await WishList.findById(req.params);
-    res.json({ msg: "User deleted", deleteUser });
+    let wishList = await WishList.updateOne({_id: req.params.id}, {
+      $pull: { orderList: req.body },
+    });
+    res.json({ msg: "removed item from wish ", wishList});
   } catch (error) {
-    res.json({ msg: error.message });
+    res.status(404).json({ msg: error.message });
   }
 });
 
