@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import User from "../models/users.js";
-import WishLists from "../models/wishLists.js";
+import WishList from "../models/wishLists.js";
 
 const router = new Router();
 
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const user = await User.create(req.body);
-    const wishList = await WishLists.create({user_id: user._id});
+    const wishList = await WishList.create({user_id: user._id});
     res.status(201).json({ user, wishList });
   } catch (error) {
     res.json({ msg: "something went wrong", errorMsg: error.message});
