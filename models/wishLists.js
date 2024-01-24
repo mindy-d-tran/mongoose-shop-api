@@ -17,7 +17,7 @@ const wishListsSchema = new mongoose.Schema(
       ref: "User",
       require: true,
     },
-    orderList: {
+    wish_list: {
       type: [wishlistItem],
     },
   },
