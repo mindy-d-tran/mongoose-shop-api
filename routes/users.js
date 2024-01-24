@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     const users = await User.find({});
     res.send(users);
   } catch (error) {
-    console.log(error.message);
+    res.json({msg: error.message});
   }
 });
 /**
@@ -65,7 +65,7 @@ router.delete("/:id", async (req, res) => {
     const deleteUser = await User.findByIdAndDelete(req.params.id);
     res.json({ msg: "User deleted", deleteUser });
   } catch (error) {
-    console.log(error);
+    res.json({msg: error.message});
   }
 });
 
