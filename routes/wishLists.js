@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 
 /**
  * GET /:id
- * get one user
+ * get one wish list from a user
  */
 router.get("/:id", async (req, res) => {
   try {
